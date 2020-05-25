@@ -1,0 +1,3 @@
+{{object.ch_title}}
+{{object.en_title}}
+{{object.actor}}

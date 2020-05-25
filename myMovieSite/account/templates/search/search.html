@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+	<head>
+		<title>Home</title>
+		<link rel="stylesheet" href="{% static 'account/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'account/css/owl.carousel.css' %}">
+		<link rel="stylesheet" href="{% static 'account/css/style.css' %}">
+		<link rel="shortcut icon" href="{%static 'account/image/favicon.ico' %}" />
+        <script src="{% static 'account/js/jquery.min.js' %}"></script>
+
+	<!--<link href="{% static 'index/style/bootstrap.css' %}" rel="stylesheet" />
+	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+		<link href="css/owl.carousel.css" rel='stylesheet' type='text/css' />
+		<link href="css/style.css" rel='stylesheet' type='text/css' />-->
+		 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		 <!--<script src="js/jquery.min.js"></script>-->
+		 <!-- Custom Theme files -->
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		</head>
+	<body>
+		<!-- container -->
+		<div class="header">
+		<div class="container">
+			<!-- header -->
+				<!-- logo -->
+				<div class="logo">
+					<a href="{% url 'account:index' %}"><img src="{%static 'account/image/logo.png'%}" title="MOVIES" /></a>
+				</div>
+				<!-- logo -->
+				<!-- top-nav -->
+				<div class="top-nav">
+					<span class="menu"> </span>
+					<ul>
+						<li class="active"><a href="{% url 'account:index' %}">首页<span> </span></a></li>
+						<li><a href="{% url 'account:login' %}">登陆</a></li>
+						<li><a href="{% url 'account:register' %}">注册</a></li>
+						<li><a href="{% url 'account:index' %}">关于我们</a></li>
+						<li><a href="{% url 'account:center' %}">我的收藏</a></li>
+						<div class="clearfix"> </div>
+					</ul>
+				</div>
+				<div class="clearfix"> </div>
+				<!-- top-nav -->
+				<!-- script-for-menu -->
+				<script>
+					$(document).ready(function(){
+						$("span.menu").click(function(){
+							$(".top-nav ul").slideToggle(200);
+						});
+					});
+				</script>
+				<!-- script-for-menu -->
+			</div>
+			<!-- header -->
+		</div>
+		<!-- banner -->
+		<div class="banner">
+			<!-- slider -->
+				<!--- img-slider --->
+				<div class="img-slider">
+						<!----start-slider-script---->
+					<script src="{% static 'account/js/responsiveslides.min.js' %}"></script>
+					 <script>
+					    // You can also use "$(window).load(function() {"
+					    $(function () {
+					      // Slideshow 4
+					      $("#slider4").responsiveSlides({
+					        auto: true,
+					        pager: true,
+					        nav: true,
+					        speed: 500,
+					        namespace: "callbacks",
+					        before: function () {
+					          $('.events').append("<li>before event fired.</li>");
+					        },
+					        after: function () {
+					          $('.events').append("<li>after event fired.</li>");
+					        }
+					      });
+
+					    });
+					  </script>
+					<!----//End-slider-script---->
+					<!-- Slideshow 4 -->
+					    <div  id="top" class="callbacks_container">
+					      <ul class="rslides" id="slider4">
+					        <li>
+					          <img class="img-responsive" src="{%static 'account/image/slide1.jpg' %}" alt="">
+					          <div class="slider-caption">
+					          	<div class="slider-caption-inner">
+						          	 <h1>movies<span>Z</span></h1>
+						         	 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sollicitudin lectus in quam elementum aliquet. Quisque gravida fringilla velit nec ornare. </p>
+						         	 <a class="caption-btn" href="#">ReadMore</a>
+					         	 </div>
+					          </div>
+					        </li>
+					        <li>
+					          <img  src="{% static 'account/image/slide2.jpg' %}" alt="">
+					           <div class="slider-caption">
+					          	 <div class="slider-caption-inner">
+						          	 <h1>movie<span>Z</span></h1>
+						         	 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sollicitudin lectus in quam elementum aliquet. Quisque gravida fringilla velit nec ornare. </p>
+						         	 <a class="caption-btn" href="#">ReadMore</a>
+					         	 </div>
+					          </div>
+					        </li>
+					        <li>
+					          <img  src="{% static 'account/image/slide3.jpg' %}" alt="">
+					           <div class="slider-caption">
+					            <div class="slider-caption-inner">
+						          	 <h1>movie<span>Z</span></h1>
+						         	 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sollicitudin lectus in quam elementum aliquet. Quisque gravida fringilla velit nec ornare. </p>
+						         	 <a class="caption-btn" href="#">ReadMore</a>
+					         	 </div>
+					          </div>
+					        </li>
+					      </ul>
+					    </div>
+					    <div class="clearfix"> </div>
+					</div>
+						<!-- slider -->
+		</div>
+		<!-- banner -->
+		<!-- categories#左侧类别框 -->
+		<div class="categories">
+			<div class="container">
+				<div class="categories-left">
+					<ul class="options">
+						{% for type in types %}
+						    <li><a href="{% url 'account:type' type %}">{{type}}</a>
+                        {% endfor %}
+					</ul>
+					<select class="s-option">
+						<option>select categories</option>
+						<option>Adventure</option>
+						<option>Adventure</option>
+						<option>Adventure</option>
+					</select>
+				</div>
+				<!--右侧搜索框!-->
+				<div class="categories-right">
+					<form action="/search" method="get">
+						<input type="text" id="q" name="q" placeholder="Search here" required>
+						<input type="submit" value="search" />
+					</form>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<!-- categories -->
+		<div class="tlinks">Collect from <a href="https://www.google.com/" >在线GOOGLE</a></div>
+		<!-- content -->
+{% block content %}
+        {% if query %}
+            <h3>搜索结果</h3>
+
+            {% for result in page.object_list %}
+                <p>
+                    <a href=''>{{ result.object.ch_title }}</a>
+                </p>
+            {% empty %}
+                <p>No results found.</p>
+            {% endfor %}
+
+            {% if page.has_previous or page.has_next %}
+                <div>
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+    </form>
+{% endblock %}

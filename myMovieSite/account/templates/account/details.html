@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+	<head>
+		<title>details</title>
+
+		<!-- Custom Theme files -->
+		<link href="{% static 'account/css/style.css' %}" rel='stylesheet' type='text/css' />
+		<link href="{% static 'account/css/bootstrap.css' %}" rel='stylesheet' type='text/css' />
+		<script src="{% static 'account/js/jquery.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+		<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+		<script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
+		<script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	    <!-- Custom Theme files -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	</head>
+	<body>
+		<!-- container -->
+		<div class="header top-header">
+		<div class="container">
+			<!-- header -->
+				<!-- logo -->
+
+				<div class="logo">
+					<a href="{% url 'account:index' %}"><img src="{%static 'account/image/logo.png'%}" title="MOVIES" /></a>
+				</div>
+				<!-- logo -->
+				<!-- top-nav -->
+				<div class="top-nav">
+					<span class="menu"> </span>
+					<ul>
+						<li class="active"><a href="{% url 'account:index' %}">首页<span> </span></a></li>
+						<li><a href="{% url 'account:register' %}">登陆</a></li>
+						<li><a href="{% url 'account:register' %}">注册</a></li>
+						<li><a href="{% url 'account:index' %}">关于我们</a></li>
+						<li><a href="{% url 'account:index' %}">我的</a></li>
+						<div class="clearfix"> </div>
+					</ul>
+				</div>
+				<div class="clearfix"> </div>
+				<!-- top-nav -->
+				<!-- script-for-menu -->
+				<script>
+					$(document).ready(function(){
+						$("span.menu").click(function(){
+							$(".top-nav ul").slideToggle(200);
+						});
+					});
+				</script>
+				<!-- script-for-menu -->
+			</div>
+			<!-- header -->
+		</div>
+		<!-- categories -->
+		<div class="categories c-cate">
+			<div class="container">
+				<div class="categories-left">
+					<ul class="options">
+						<li><a href="#">动作</a></li>
+						<li><a href="#">科幻</a></li>
+						<li><a href="#">剧情</a></li>
+						<li><a href="#">喜剧</a></li>
+						<li><a href="#">家庭</a></li>
+						<li><a href="#">动画</a></li>
+					</ul>
+
+				</div>
+				<div class="categories-right">
+					<form>
+						<input type="text" placeholder="Search here" required>
+						<input type="submit" value="search" />
+					</form>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<!-- categories -->
+		<!-- content -->
+		<div class="content">
+			<div class="container">
+			<!-- content-left -->
+			<div class="col-md-8 content-left">
+				<!-- artical-single-page -->
+				<div class="artical-details">
+					<h2><a href="#">电影</a></h2>
+					<!-- artical-details-info -->
+					<div class="artical-details-info">
+						<div class="artical-details-info-left">
+							<a href="#"><img src="{%static curr_movie.pic %}" title="name" /></a>
+						</div>
+						<div class="artical-details-info-right">
+							<p><strong>中文名:</strong>{{curr_movie.ch_title}}</p>
+							    <p><strong>外文名:</strong> {{curr_movie.en_title}} </p>
+							    <p><strong>类型:</strong>{{curr_movie.type}}</p>
+							    <p><strong>导演:</strong>{{curr_movie.sector}}</p>
+							    <p><strong>主演：</strong> {{curr_movie.actor}}</p>
+							<div class="dicription">
+								<p><strong>类型:</strong>{{curr_movie.type}}</p>
+							</div>
+
+
+							<button  id ="col" >收藏</button>
+						<div class ="form-group">
+
+							<input type="number" id="rating-control" class="form-control" step="0.1" max="5" placeholder="请输入评分（0-5）">
+						    <input type="button" id="tijiao" value="提交评分"/>
+						</div>
+
+
+
+
+
+
+
+
+ 
+
+						<div class="clearfix"> </div>
+
+
+					<!-- artical-details-info -->
+				</div>
+
+				<!-- related-articals -->
+				<div class="comment-area">
+
+					<h2>评论区</h2>
+					<!-- related-albums -->
+
+						<h3 class="comment-area-title"></h3>
+						    <form id="comment_form" action="{%url 'account:update_comment' %}"  method="post" style="overflow:hidden">
+									 <label for="comment_text">{{user}},欢迎评论~</label>
+									   {% csrf_token %}
+
+									        {{  comment_form }}
+
+								    <span id="comment_error" class="text-danger "></span>
+						            <input type="submit" id="btn" value="评论" class="btn btn-primary">
+					        </form>
+
+
+				</div>
+				<div class="comment_area">
+					<h3 class="comment-area-title" >评论列表</h3>
+					<div id="comment_list">
+					{% for cmt in cmts%}
+					<div>
+					    {{cmt.user_name}}
+					    ({{cmt.co_time|date:"Y-m-d H:i:s"}}):
+						{{cmt.co_text|safe}}
+					</div>
+					{% empty %}
+					   暂无评论
+					{% endfor %}
+					</div>
+					{% block script_extends%}
+					<script>
+					$("#tijiao").on('click', function () {
+                               var rating = $("#rating-control").val();
+                                var id = {{curr_movie.id}};
+                                        if (rating != null) {
+                                                  $.ajax({
+                                                       url: "{% url 'account:rating' %}",
+                                                       type: "post",
+                                                       headers: {"X-CSRFToken": $.cookie('csrftoken')},
+                                                       data: {mov_id:id,
+                                                             rate:rating,
+                                                              },
+
+                                                       success: function (response) {
+                                                              var result = response.result
+                                                              if (result == "success") {
+                                                                      alert("评价成功");
+                                                                } else {
+                                                                      alert("请注意评分在1-5之间");
+                                                                 }
+                                                            }
+                                                    });
+                                           }
+                                  })
+
+
+					</script>
+					<script type="text/javascript">
+					$('#col').on('click',function(){
+
+                                    var id = {{curr_movie.id}};
+                                    $.ajax({
+                                        url:"{%url 'account:collect'%}",
+                                        type:'POST',
+                                        data:{
+
+                                             mov_id : id,
+                                          },
+                                        headers: {"X-CSRFToken": $.cookie('csrftoken')},
+                                        success:function (response) {
+                                            var result = response.result
+                                            var msg = response.message
+							                if(result =='fail'){
+                                                alert(msg);
+
+
+                                             }
+                                             else{
+
+
+                                                    alert(msg);
+
+
+                                            }
+                                        }
+                               });
+                       });
+                   </script>
+					<script type="text/javascript">
+
+					$("#comment_form").submit(function(){
+
+					  $.ajax({
+					         url:"{%url 'account:update_comment'%}",
+					         type: 'POST',
+					         data:$(this).serialize(),
+                             cache:false,
+                             success:function(data){
+                                 console.log(data);
+                                 //插入数据
+                                 if(data['status'] =='SUCCESS'){
+                                     var comment_html = '<div>'+data[user_name]+'('+data[co_time]+'):'+data[co_text]+'<div>';
+                                     $("#comment_list").prepend(comment_html);
+                                     }
+                                  else{}
+                                  },
+                                  error:function(xhr){
+                                  console.log(xhr);
+                                  }
+                                  });
+                            return false;
+                            });
+                             </script>
+
+					{% endblock %}
+
+
+
+
+					<!-- related-albums -->
+				</div>
+				<!-- related-articals -->
+				<!-- artical-single-page -->
+				<div class="clearfix"> </div>
+			</div>
+			<!-- content-left -->
+			<!-- content-right -->
+				<div class="col-md-4 content-right">
+				<div class="recent-add">
+					<!----sreen-gallery-cursual---->
+						<div class="sreen-gallery-cursual">
+							 <!-- requried-jsfiles-for owl -->
+							<link href="{% static 'account/css/owl.carousel.css' %}" rel="stylesheet">
+							    <script src="{% static 'account/js/owl.carousel.js' %}"></script>
+							        <script>
+							    $(document).ready(function() {
+							      $("#owl-demo").owlCarousel({
+							        items : 1,
+							        lazyLoad : true,
+							        autoPlay : true,
+							        navigation : true,
+							        navigationText :  false,
+							        pagination : true,
+							      });
+							    });
+							    </script>
+							 <!-- //requried-jsfiles-for owl -->
+							 <!-- start content_slider#侧边照片轮播栏 3 个-->
+							<div id="owl-demo" class="owl-carousel text-center">
+								   <!-- {% for i in 3|get_range %} -->
+					            <div class="item">
+									<img class="lazyOwl" data-src="{% static 'account/image/lunbo1.jpg'%}" alt="火热上映">
+					                        </div>
+								<div class="item">
+					                	        <img class="lazyOwl" data-src="{% static 'account/image/lunbo2.jpg'%}" alt="火热上映">
+					                        </div>
+								<div class="item">
+					                	        <img class="lazyOwl" data-src="{% static 'account/image/lunbo3.jpg'%}" alt="火热上映">
+					                        </div>
+								    <!--{% endfor %}-->
+				              </div>
+						<!--//sreen-gallery-cursual---->
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+			<!-- popular-allbums 侧边栏热门电影 3 个-->
+
+
+
+			</div>
+			<!-- popular-allbums -->
+			<!-- content-right -->
+			</div>
+		</div>
+		</div>
+
+		<!-- content -->
+		<!-- footer -->
+		<div class="footer">
+						<div class="container">
+							<div class="footer-grids">
+								<div class="col-md-3">
+									<div class="footer-grid">
+										<h5>About movies</h5>
+										<p>增长见识,加深文化底蕴,丰富课余生活,了解异乡风情,引发对人生的思考和感悟,改变对人生和社会的看法</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="footer-grid f-blog">
+										<h5>Form the Blog</h5>
+										<div class="f-blog-artical">
+											<p>本网站提供豆瓣top250的电影供以了解</p>
+											<span>March 20,2020</span>
+										</div>
+										<div class="f-blog-artical f-blog-artical1">
+											<p>登陆后即可收藏电影</p>
+											<span>March 20,2020</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="footer-grid site-map">
+										<h5>Site Map</h5>
+										<ul>
+											<li class="active"><a href="{% url 'account:index' %}">首页<span> </span></a></li>
+						                    <li><a href="{% url 'account:register' %}">登陆</a></li>
+											<li><a href="{% url 'account:register' %}">注册</a></li>
+						                    <li><a href="{% url 'account:index' %}">关于我们</a></li>
+						                    <li><a href="{% url 'account:index' %}">我的收藏</a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="footer-grid f-gallery">
+										<h5>Form the portfolio</h5>
+										<div class="f-gallery-grids">
+											<div class="f-gallery-grid">
+												<ul>
+													<li><a href="#"><img src="{%static '011.webp'%}"  title="name"></a></li>
+													<li><a href="#"><img src="{%static '012.webp'%}" title="name"></a></li>
+													<li><a href="#"><img src="{%static '112.webp'%}" title="name"></a></li>
+													<li><a href="#"><img src="{%static '212.webp'%}" title="name"></a></li>
+													<li><a href="#"><img src="{%static '312.webp'%}" title="name"></a></li>
+													<li><a href="#"><img src="{%static '412.webp'%}" title="name"></a></li>
+													<div class="clearfix">
+												</div></ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="clearfix"> </div>
+							</div>
+						</div>
+					</div>
+		<!-- footer -->
+		<!-- copy-right -->
+		<div class="copy-right">
+			<div class="container">
+				<p>Copyright &copy; 2020.more information <a href="https://github.com/luMoos-L" target="_blank" title="GitHub主页">lumoos的主页</a> <!-- - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>-->
+			</div>
+		</div>
+		<!-- copy-right -->
+		<!-- container -->
+
+</body>
+</html>

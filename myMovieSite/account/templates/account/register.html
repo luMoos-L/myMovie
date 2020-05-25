@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>注册登录界面</title>
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="{% static 'account/css/normalize.min.css'%}">
+
+
+      <link rel="stylesheet" href="{% static 'account/css/style1.css'%}">
+
+
+</head>
+
+<body>
+
+  <div class="form">
+
+      <ul class="tab-group">
+        <li class="tab active"><a href="register">注册</a></li>
+        <li class="tab"><a href="#login">登陆</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="signup">
+          <h1>免费注册</h1>
+
+          <form action="{% url 'account:register' %}" method="post">
+            {% csrf_token %}
+            <div class="top-row">
+            <div class="field-wrap">
+              <label>
+                用户名<span class="req">*</span>
+              </label>
+              <input type="text" name="username" required autocomplete="off" />
+            </div>
+
+
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              邮箱地址<span class="req">*</span>
+            </label>
+            <input type="email" name="email" required autocomplete="off"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              设置密码<span class="req">*</span>
+            </label>
+            <input type="password" name="password" required autocomplete="off"/>
+          </div>
+
+          <button type="submit" class="button button-block"/>提交</button>
+
+          </form>
+
+        </div>
+
+        <div id="login">
+          <h1>Welcome Back!</h1>
+
+          <form action="{% url 'account:login' %}" method="post">
+
+            <div class="field-wrap">
+            <label>
+              邮箱地址<span class="req">*</span>
+            </label>
+            <input type="email"required autocomplete="off"/>
+          </div>
+
+          <div class="field-wrap">
+            <label>
+              密码<span class="req">*</span>
+            </label>
+            <input type="password"required autocomplete="off"/>
+          </div>
+
+          <p class="forgot"><a href="#">忘记密码?</a></p>
+
+          <button class="button button-block"/>登陆</button>
+
+          </form>
+
+        </div>
+
+      </div><!-- tab-content -->
+
+</div> <!-- /form -->
+  <script src="{% static 'account/js/jquery.min1.js'%}"></script>
+
+    <script  src="{% static 'account/js/index.js'%}"></script>
+
+</body>
+</html>
